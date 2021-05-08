@@ -3,13 +3,19 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from app import app
-from apps import app1
-from apps import app2
+from apps import app1, app2
 
+from app import server
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+     html.Div([
+        dcc.Link('app1|', href='/apps/app1'),
+        dcc.Link('app2', href='/apps/app2'),
+    ], className="row"),
+    html.Div(id='page-content', children=[])
 ])
 
 
