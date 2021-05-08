@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output
 
 from app import app
 from apps import app1
+from apps import bar_chart
 
 
 app.layout = html.Div([
@@ -17,6 +18,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/apps/app1':
         return app1.layout
+    elif pathname =='/apps/barchart':
+        return bar_chart.layout
     else:
         return '404'
 
