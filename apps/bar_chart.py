@@ -6,14 +6,14 @@ import plotly.express as px
 import pandas as pd
 import pathlib
 import statistics
-app = dash.Dash(__name__)
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
 
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
-df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021.csv"))
+df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021(n).csv"))
 #years = ["2008", "2009", "2010", "2011", "2012", "2013", "2014","2015", "2016", "2017", "2018", "2019", "2020"]
 
 
@@ -59,12 +59,15 @@ def update_bar_chart(year, state):
     #year_df = year_df.groupby(["Month"])[['Unemployment Total']]
     fig = px.bar(
         year_df, 
-        y="Unemployment Total", 
+        y="Unemployment Rate", 
         x="Month", 
-        hover_data=["State", "Unemployment Rate", "Year", "Month"], 
+        hover_data=["State", "Unemployment Rate","Unemployment Total", "Year", "Month"], 
         color = "Unemployment Rate",
         orientation = "v",
-        barmode="group")
+        barmode="group",
+        labels = {'Month': 'Months', 'Unemployment Rate': 'Unemployment Rate (%)'}, 
+        )
     return fig
+
 
 app.run_server(debug=True)
