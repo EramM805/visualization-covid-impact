@@ -4,6 +4,8 @@ from dash.dependencies import Input, Output
 
 from app import app
 from apps import app1
+from apps import scatterplotmat
+from apps import scatterplotmat2
 
 
 app.layout = html.Div([
@@ -17,6 +19,10 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/apps/app1':
         return app1.layout
+    elif pathname =='/apps/scatterplotmat':
+        return scatterplotmat.layout
+    elif pathname =='/apps/scatterplotmat2':
+        return scatterplotmat2.layout
     else:
         return '404'
 
