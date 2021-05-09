@@ -12,6 +12,8 @@ colors = {
     'text': '#7FDBFF'
 }
 
+
+
 # get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
@@ -29,7 +31,8 @@ layout = html.Div([
             dcc.Dropdown(
                 id='year-dropdown', value='2020', clearable=False,
                 persistence=True, persistence_type='session',
-                options=[{'label': x, 'value': x} for x in sorted(dfg["Year"].unique())]
+                options=[{'label': x, 'value': x} for x in sorted(dfg["Year"].unique())],
+                style={'color': '#7FDBFF', 'text': '#7FDBFF'}
             )
         ], className='six columns'),
 
@@ -38,7 +41,8 @@ layout = html.Div([
             dcc.Dropdown(
                 id='month-dropdown', value='3', clearable=False,
                 persistence=True, persistence_type='local',
-                options=[{'label': x, 'value': x} for x in sorted(dfg["Month"].unique())]
+                options=[{'label': x, 'value': x} for x in sorted(dfg["Month"].unique())],
+                style={'color': '#7FDBFF', 'text': '#7FDBFF'}
             )
             ], className='six columns'),
     ], className='row', style={"textAlign": "center", "background": "black", 'color': '#7FDBFF'}),
