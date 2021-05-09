@@ -6,8 +6,7 @@ import plotly.express as px
 import pandas as pd
 import pathlib
 import statistics
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+from app import app
 
 
 
@@ -17,7 +16,7 @@ df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021(n).csv"))
 #years = ["2008", "2009", "2010", "2011", "2012", "2013", "2014","2015", "2016", "2017", "2018", "2019", "2020"]
 
 
-app.layout = html.Div([
+layout = html.Div([
     html.H1("United States Unemployment Statistics 2008 - 2020", style = {"textAlign": "center", "width": "100%", "fontSize": "150%"}),
     
     html.Div([
@@ -68,6 +67,3 @@ def update_bar_chart(year, state):
         labels = {'Month': 'Months', 'Unemployment Rate': 'Unemployment Rate (%)'}, 
         )
     return fig
-
-
-app.run_server(debug=True)
