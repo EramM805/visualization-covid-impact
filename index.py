@@ -7,7 +7,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import app1, app2, bar_chart, linecharts
+from apps import app1, app2, bar_chart, linecharts, djia_vis
 
 
 app.layout = html.Div([
@@ -17,6 +17,7 @@ app.layout = html.Div([
         dcc.Link('Heatmap', href='/apps/app2'),
         dcc.Link('Line Chart', href='/apps/linecharts'),
         dcc.Link('BarChart', href='/apps/barchart'),
+        dcc.Link('djia', href='/apps/djia_vis'),
     ], className="row", style={"background": "black", 'color': '#7FDBFF'}),
     html.Div(id='page-content', children=[],style={"background": "black", 'color': '#7FDBFF'})
 ])
@@ -27,6 +28,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/apps/app1':
         return app1.layout
+    if pathname == '/apps/djia_vis':
+        return djia_vis.layout
     if pathname == '/apps/app2':
         return app2.layout
     if pathname == '/apps/linecharts':
