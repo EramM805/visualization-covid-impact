@@ -35,12 +35,12 @@ months = {'1': 'January',
    '11': 'November',
    '12': 'December'}
 # 1st month from 2007-2021
-by_month_data = states_data.loc[(states_data['Year'] > '2007')]
+by_month_data = states_data.loc[(states_data['Year'] > '2004')]
 by_month_data['State Code'] = by_month_data['State'].map(us_state_abbrev)
 by_month_data = by_month_data.reset_index()
 by_month_data['Month'] = by_month_data['Month'].map(months).fillna(by_month_data['Month'])
 
-by_month_data.to_csv(path_or_buf = './data/Unemployment-2007-2021(n).csv')
+by_month_data.to_csv(path_or_buf = './data/Unemployment-2005-2021(n).csv')
 
 
 

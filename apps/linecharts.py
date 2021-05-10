@@ -15,13 +15,13 @@ from app import app
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
 
-df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021(n).csv"))
+df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2005-2021(n).csv"))
 fig = px.line(df, x="Year", y="Unemployment Rate")
 
 df_gdp_us = pd.read_csv(DATA_PATH.joinpath("GDP_us.csv"))
 fig2 = px.line(df_gdp_us, x="DATE", y="GDP",template="plotly_dark")
 
-df_unemployement_us = pd.read_csv(DATA_PATH.joinpath("Unemployement-2008-2021-US.csv"))
+df_unemployement_us = pd.read_csv(DATA_PATH.joinpath("Unemployement-2005-2021-US.csv"))
 fig3 = px.line(df_unemployement_us, x="DATE", y="UNRATE",template="plotly_dark")
 
 fig.update_traces(mode='lines+markers') 
