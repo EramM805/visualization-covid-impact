@@ -8,10 +8,6 @@ import pathlib
 import statistics
 from app import app
 
-app = dash.Dash(__name__)
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
@@ -19,7 +15,7 @@ df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021.csv"))
 #years = ["2008", "2009", "2010", "2011", "2012", "2013", "2014","2015", "2016", "2017", "2018", "2019", "2020"]
 
 
-app.layout = html.Div([
+layout = html.Div([
     html.H1("United States Unemployment Statistics 2008 - 2020", style = {"textAlign": "center", "width": "100%", "fontSize": "150%"}),
     
     html.Div([
