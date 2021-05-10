@@ -25,7 +25,7 @@ layout = html.Div([
         html.Div([
             html.Pre(children="Year", style={"fontSize":"150%", "background": "black", 'color': '#7FDBFF'}),
             dcc.Dropdown(
-                id='year-dropdown', value='2020', clearable=False,
+                id='year-dropdown', value=2020, clearable=False,
                 persistence=True, persistence_type='session',
                 options=[{'label': x, 'value': x} for x in sorted(dfg["Year"].unique())],
                 style={'color': '#7FDBFF', 'text': '#7FDBFF'}
@@ -35,7 +35,7 @@ layout = html.Div([
         html.Div([
             html.Pre(children="Month", style={"fontSize": "150%", "background": "black", 'color': '#7FDBFF'}),
             dcc.Dropdown(
-                id='month-dropdown', value='3', clearable=False,
+                id='month-dropdown', value=3, clearable=False,
                 persistence=True, persistence_type='local',
                 options=[{'label': x, 'value': x} for x in sorted(dfg["Month"].unique())],
                 style={'color': '#7FDBFF', 'text': '#7FDBFF'}
