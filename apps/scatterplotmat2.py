@@ -38,7 +38,7 @@ layout = html.Div([
             style = {"textAlign": "center", "width": "100px"},
             id="dropdown-month",
             options=[{"label": x, "value": x} for x in sorted(df["Month"].unique())],
-            value="1",
+            value=1,
             clearable=False,
         )
         ], className = 'six columns'),
