@@ -19,7 +19,7 @@ def display_page(pathname):
     if pathname == '/apps/app1':
         return app1.layout
     if pathname == '/apps/djia_vis':
-        return djia_vis.fig
+        return djia_vis.layout
     else:
         return '404'
 
