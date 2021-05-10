@@ -4,12 +4,10 @@ from dash.dependencies import Input, Output
 
 # Connect to main app.py file
 from app import app
-from apps import scatterplotmat
-from apps import scatterplotmat2
 from app import server
 
 # Connect to your app pages
-from apps import app1, app2, bar_chart, linecharts
+from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2
 
 
 app.layout = html.Div([

@@ -6,6 +6,8 @@ import plotly.express as px
 import pandas as pd
 import pathlib
 import statistics
+from app import app
+
 app = dash.Dash(__name__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -71,5 +73,3 @@ def update_scattermat(year, month):
     height = 1000,
     )
     return fig
-
-app.run_server(debug=True)
