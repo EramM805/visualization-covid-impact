@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output
 
 from app import app
 from apps import app1
+from apps import djia_vis
 
 
 app.layout = html.Div([
@@ -17,6 +18,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/apps/app1':
         return app1.layout
+    if pathname == '/apps/djia_vis':
+        return djia_vis.fig
     else:
         return '404'
 

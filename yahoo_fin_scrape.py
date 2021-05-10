@@ -43,18 +43,17 @@ def djia_fetcher(period1, period2):
 
     return (headings,data)
 
-data_2020 = djia_fetcher(1577836800,1609459200)
-print(data_2020)
-data_2008 = djia_fetcher(1199145600,1230768000)
-print(data_2008)
+#data_2020 = djia_fetcher(1577836800,1609459200)
+#print(data_2020)
+#data_2008 = djia_fetcher(1199145600,1230768000)
+#print(data_2008)
 
-filename = "DJIA.csv"
 
 #with open(filename, 'w') as csvfile: 
 
     #csvwriter = csv.writer(csvfile)
 
-    #csvwriter.writerows(body1)
-    #csvwriter.writerows(data2_2008)
+    #csvwriter.writerows(data_2020)
+    #csvwriter.writerows(data_2008)
 
 
