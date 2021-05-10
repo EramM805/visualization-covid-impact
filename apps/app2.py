@@ -13,13 +13,9 @@ colors = {
 }
 
 
-
-# get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
 
-# owner: shivp Kaggle. Source: https://data.mendeley.com/datasets
-# dataset was modified. Original data: https://www.kaggle.com/shivkp/customer-behaviour
 dfg = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021.csv"))
 
 layout = html.Div([
@@ -62,7 +58,7 @@ def display_value(pymnt_chosen, month_chosen):
     dfg_fltrd = dfg_fltrd.groupby(["State Code", 'State', 'Labor Force Total'])[['Unemployment Rate']].sum()
     dfg_fltrd.reset_index(inplace=True)
     fig = px.choropleth(dfg_fltrd, locations="State Code", hover_data=['State','Labor Force Total', 'Unemployment Rate'],
-                        locationmode="USA-states", color="Unemployment Rate", template='plotly_dark', color_continuous_scale=px.colors.sequential.YlOrRd,
+                        locationmode="USA-states", color="Unemployment Rate", labels={'Unemployment Rate':'Unemployment Rate (%)'},template='plotly_dark', color_continuous_scale=px.colors.sequential.YlOrRd,range_color=(0, 20),
                         scope="usa")
     fig.update_layout(
     plot_bgcolor=colors['background'],
