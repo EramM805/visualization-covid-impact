@@ -22,7 +22,7 @@ app.layout = html.Div([
         dcc.Link('Line Chart | ', href='/apps/linecharts'),
         dcc.Link('BarChart | ', href='/apps/barchart'),
         dcc.Link('djia | ', href='/apps/djia_vis'),
-        dcc.Link('ScatterPlot  | ', href='/apps/scatterplotmat2'),
+        dcc.Link('Scatterplot Matrix  | ', href='/apps/scatterplotmat2'),
     ], className="row", style={"background": "black", 'color': '#7FDBFF'}),
     html.Div(id='page-content', children=[],style={"background": "black", 'color': '#7FDBFF'}, className = 'styling')
 ])
