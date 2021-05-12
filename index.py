@@ -7,7 +7,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, djia_vis
+from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, djia_vis, candlestick
 styling = {
     'background': '#111111',
     'text': '#7FDBFF',
@@ -23,6 +23,7 @@ app.layout = html.Div([
         dcc.Link('BarChart | ', href='/apps/barchart'),
         dcc.Link('djia | ', href='/apps/djia_vis'),
         dcc.Link('ScatterPlot  | ', href='/apps/scatterplotmat2'),
+        dcc.Link('Candlestick | ', href='/apps/candlestick')
     ], className="row", style={"background": "black", 'color': '#7FDBFF'}),
     html.Div(id='page-content', children=[],style={"background": "black", 'color': '#7FDBFF'}, className = 'styling')
 ])
@@ -45,6 +46,8 @@ def display_page(pathname):
         return linecharts.layout
     if pathname == '/apps/barchart':
         return bar_chart.layout
+    if pathname == '/apps/candlestick':
+        return candlestick.layout
     else:
         return "404 Page Error! Please choose a link"
 
