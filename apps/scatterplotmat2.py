@@ -20,7 +20,15 @@ layout = html.Div([
     
     html.Div([
         
-        
+        html.Div([
+            html.Pre(children="State"),
+            dcc.Checklist(
+                id='state-check-list', value=['Alabama'],
+                options = [{'label': i, 'value': i} for i in df['State'].unique()],
+                labelStyle={'display': 'inline'},
+            )
+            ]),
+
         html.Div([
         html.Pre(children="Year", style = {"textAlign": "center", "width": "100px", "fontSize": "150%"}),
         dcc.Dropdown(
@@ -50,14 +58,17 @@ layout = html.Div([
 @app.callback(
     Output("scattermat", "figure"), 
     [Input("dropdown", "value"),
-    Input("dropdown-month", "value")]
+    Input("dropdown-month", "value"),
+    Input("state-check-list", "value")]
     )
-def update_scattermat(year, month):
+def update_scattermat(year, month, state):
     year_df = df[(df['Year'] == year) & (df['Month'] == month)]
+    year_df = year_df[year_df["State"].isin(state)]
     #year_df = year_df.groupby(["Month"])[['Unemployment Total']]
     fig = px.scatter_matrix(year_df,
     dimensions=["Labor Force Percent of Population", "Employment Percent of Population", "Unemployment Rate"],
-    color="State",
+    hover_data=["Unemployment Rate", "State", "Year", "Month"],
+    color="Unemployment Rate",
     #title="Scatterplot Matrix of Unemployment 2007",
     labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
     

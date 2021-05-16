@@ -18,7 +18,7 @@ app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div([
         dcc.Link('App1 | ', href='/apps/app1'),
-        dcc.Link('Heatmap |', href='/apps/app2'),
+        dcc.Link('Heatmap | ', href='/apps/app2'),
         dcc.Link('Line Chart | ', href='/apps/linecharts'),
         dcc.Link('BarChart | ', href='/apps/barchart'),
         dcc.Link('djia | ', href='/apps/djia_vis'),
