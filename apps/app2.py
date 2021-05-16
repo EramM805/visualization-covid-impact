@@ -125,7 +125,7 @@ layout = html.Div([
             ] , style={'padding': '2%','borderBottom': '2px solid #7FDBFF'}),
             ]),
 
-    dcc.Graph(id="bar-chart-2"),
+    dcc.Graph(id="bar-chart-2", style={'padding': '2%','borderBottom': '2px solid #7FDBFF'}),
 
     html.Div([
         html.H3(children='US Unemployment Surprise Map by Year (April Only)', 
@@ -134,7 +134,7 @@ layout = html.Div([
         html.Div(children=[    
         dcc.Graph(id='surprise-map', style={'display': 'inline-block'}) 
         ]),   
-    ], className='row'),
+    ], className='row', style={'padding': '2%','borderBottom': '2px solid #7FDBFF'}),
 
     ], className='row', style={"textAlign": "center", "background": "black", 'color': '#7FDBFF'}),
     
