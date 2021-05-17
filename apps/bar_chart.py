@@ -12,7 +12,7 @@ from app import app
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
-df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2007-2021(n).csv"))
+df = pd.read_csv(DATA_PATH.joinpath("Unemployment-2005-2021(n).csv"))
 #years = ["2008", "2009", "2010", "2011", "2012", "2013", "2014","2015", "2016", "2017", "2018", "2019", "2020"]
 
 
@@ -36,7 +36,7 @@ layout = html.Div([
         html.Div([
         html.Pre(children="States", style = {"textAlign": "center", "width": "100px", "fontSize": "150%"}),
         dcc.Dropdown(
-            style = {"textAlign": "center", "width": "100px"},
+            style = {"textAlign": "center", "width": "40%"},
             id="dropdown-state",
             options=[{"label": x, "value": x} for x in sorted(df["State"].unique())],
             value="Alabama",
@@ -56,14 +56,12 @@ layout = html.Div([
 def update_bar_chart(year, state):
     year_df = df[(df['Year'] == year) & (df['State'] == state)]
     #year_df = year_df.groupby(["Month"])[['Unemployment Total']]
+    print(year_df)
     fig = px.bar(
         year_df, 
-        y="Unemployment Rate", 
+        y="Unemployment Total", 
         x="Month", 
         hover_data=["State", "Unemployment Rate","Unemployment Total", "Year", "Month"], 
-        color = "Unemployment Rate",
-        orientation = "v",
-        barmode="group",
-        labels = {'Month': 'Months', 'Unemployment Rate': 'Unemployment Rate (%)'}, 
+        labels = {'Month': 'Months', 'Unemployment Rate': 'Unemployment Rate (%)'},
         )
     return fig
