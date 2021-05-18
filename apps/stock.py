@@ -116,7 +116,7 @@ def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
         open=df_2008['Open'],
         high=df_2008['High'],
         low=df_2008['Low'],
-        close=df_2008['Close']
+        close=df_2008['Close'],
     ))
 
     candle2 = go.Figure(go.Candlestick(
@@ -124,15 +124,17 @@ def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
         open=df_2020['Open'],
         high=df_2020['High'],
         low=df_2020['Low'],
-        close=df_2020['Close']
+        close=df_2020['Close'],
     ))
 
     candle1.update_layout(
-        xaxis_rangeslider_visible='slider' in value
+        xaxis_rangeslider_visible='slider' in value,
+        template="plotly_dark"
     )
 
     candle2.update_layout(
-        xaxis_rangeslider_visible='slider' in value
+        xaxis_rangeslider_visible='slider' in value,
+        template="plotly_dark"
     )
 
     pca = PCA(n_components=n_components)
@@ -149,7 +151,8 @@ def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
         color=df_pca.High,
         dimensions=range(n_components),
         labels=labels,
-        title=f'Total Explained Variance: {var:.2f}%')
+        title=f'Total Explained Variance: {var:.2f}%', 
+        template="plotly_dark")
     fig_pca_stock.update_traces(diagonal_visible=False)
 
     return [fig, fig2, candle1, candle2, fig_pca_stock]
