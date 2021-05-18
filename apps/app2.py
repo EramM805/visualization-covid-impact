@@ -82,15 +82,6 @@ layout = html.Div([
     #     dcc.Graph(id='suprise-map'),
     #     ])
     # ]),
-    html.Div([
-                    html.Pre(children="Month", style={"fontSize": "150%", "background": "black", 'color': '#7FDBFF'}),
-                        dcc.Dropdown(
-                            id='month-dropdown', value='April', clearable=False,
-                            persistence=True, persistence_type='local',
-                            options=[{'label': x, 'value': x} for x in (dfg["Month"].unique())],
-                            style={'color': '#7FDBFF', 'text': '#7FDBFF'}
-                        ),
-                    ], style={'paddingLeft': '5%', 'paddingRight': '5%'}),
 
     html.Div(className='row', children = [
    
@@ -111,7 +102,15 @@ layout = html.Div([
                         style={"textAlign": "center", "background": "black", 'color': '#7FDBFF'}
                     ),
                     dcc.Graph(id='heat-map', style={'display': 'inline-block'}),
-                    
+                    html.Div([
+                    html.Pre(children="Month", style={"fontSize": "150%", "background": "black", 'color': '#7FDBFF'}),
+                        dcc.Dropdown(
+                            id='month-dropdown', value='April', clearable=False,
+                            persistence=True, persistence_type='local',
+                            options=[{'label': x, 'value': x} for x in (dfg["Month"].unique())],
+                            style={'color': '#7FDBFF', 'text': '#7FDBFF'}
+                        ),
+                    ], style={'paddingLeft': '5%', 'paddingRight': '5%'}),
                 ],className = 'six columns'),
                 html.Div([
                     html.H3(children='US Unemployment Rate By Year and Month', 
@@ -156,7 +155,7 @@ layout = html.Div([
                     # ], style={'paddingLeft': '5%', 'paddingRight': '5%'}),
                 ],className = 'six columns'),
                 html.Div([
-                    html.H3(children='US Unemployment Rate And Positive Cases', 
+                    html.H3(children='US Unemployment Rate And Positive Cases Correlation', 
                         style={"textAlign": "center", "background": "black", 'color': '#7FDBFF'}
                     ),
                     
@@ -189,15 +188,15 @@ layout = html.Div([
     #     ],className = 'six columns'),
     # ]),
 
-    # html.Div([
-    #         html.Pre(children="State"),
-    #         dcc.Checklist(
-    #             id='state-check-list-2', value=['Alabama', 'Alaska', 'New York', 'California', 'Florida', 'Ohio', 'Oregon',
-    #             'Texas', 'Utah', 'New Hampshire', 'New Jersey','Washington', 'Georgia', 'Wyoming', 'Arizona'],
-    #             options = [{'label': i, 'value': i} for i in dfg['State'].unique()],
-    #             labelStyle={'display': 'inline'},
-    #         )
-    # ]),
+    html.Div([
+            html.Pre(children="State"),
+            dcc.Checklist(
+                id='state-check-list-2', value=['Alabama', 'Alaska', 'New York', 'California', 'Florida', 'Ohio', 'Oregon',
+                'Texas', 'Utah', 'New Hampshire', 'New Jersey','Washington', 'Georgia', 'Wyoming', 'Arizona'],
+                options = [{'label': i, 'value': i} for i in dfg['State'].unique()],
+                labelStyle={'display': 'inline'},
+            )
+    ]),
 
 
     dcc.Graph(id="scatterplot-mx"),
@@ -223,69 +222,36 @@ layout = html.Div([
     Output(component_id='bar-chart-2', component_property='figure'),
     Output(component_id='scatterplot-mx', component_property='figure')],
     [Input(component_id='year-slider', component_property='value'),
-    Input(component_id='heat-map', component_property='selectedData'),
-    Input(component_id='surprise-map', component_property='selectedData'),
     Input(component_id='month-dropdown', component_property='value'),
     Input(component_id='heat-map', component_property='clickData'),
     Input(component_id='surprise-map', component_property='clickData'),
-    # Input("state-check-list-2", "value")]
-    ]
+    Input("state-check-list-2", "value")]
 )
-def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chosen, clickData, clickDataSurprise):
+def display_value(pymnt_chosen, month_chosen, clickData, clickDataSurprise, state):
     df_fltr = dfg[(dfg['Month'] == "January")]
     df_fltr = df_fltr[df_fltr["State Code"] == "AL"]
     loc = "AL"
 
     ctx = dash.callback_context
-    
-    year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month']  == "January")]
-    # print("df is ", type(df['Year'][0]))
-    year_df_sm = year_df_sm[year_df_sm["State Code"] == loc]
-
 
     if not ctx.triggered:
         button_id = 'No clicks yet'
     else:
-        button_id = ctx.triggered[0]['prop_id']
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
-    if button_id == "heat-map.clickData":            
+    if button_id == "heat-map":            
         location = clickData['points'][0]['location']
         df_fltr = dfg[(dfg['Month'] == month_chosen)]
         df_fltr = df_fltr[df_fltr["State Code"] == location]
         loc = clickData['points'][0]['location']
-        year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
-        # print("df is ", type(df['Year'][0]))
-        year_df_sm = year_df_sm[year_df_sm["State Code"] == loc]
-    elif button_id == "heat-map.selectedData":            
-        df_fltr = dfg[(dfg['Month'] == month_chosen)]
-        stateCodes = []
-        for points in statesChosenHeat['points']:
-            stateCodes.append(points['location'])
-        df_fltr = df_fltr[df_fltr["State Code"].isin(stateCodes)]
-        year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
-        # print("df is ", type(df['Year'][0]))
-        year_df_sm = year_df_sm[year_df_sm["State Code"].isin(stateCodes)]
-    elif button_id == "surprise-map.selectedData":            
-        df_fltr = dfg[(dfg['Month'] == month_chosen)]
-        stateCodes = []
-        for points in statesChosenSuprise['points']:
-            stateCodes.append(points['location'])
-        df_fltr = df_fltr[df_fltr["State Code"].isin(stateCodes)]
-        year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
-        # print("df is ", type(df['Year'][0]))
-        year_df_sm = year_df_sm[year_df_sm["State Code"].isin(stateCodes)]
-    elif button_id == "surprise-map.clickData":            
+
+    if button_id == "surprise-map":            
         location = clickDataSurprise['points'][0]['location']
         df_fltr = dfg[(dfg['Month'] == month_chosen)]
         df_fltr = df_fltr[df_fltr["State Code"] == location]
         loc = clickDataSurprise['points'][0]['location']
-        year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
-        # print("df is ", type(df['Year'][0]))
-        year_df_sm = year_df_sm[year_df_sm["State Code"] == loc]
 
 
-
-    
     dfg_fltrd = dfg[(dfg['Month'] == month_chosen) &
                     (dfg["Year"] == pymnt_chosen)]
     dfg_fltrd = dfg_fltrd.groupby(["State Code", 'State', 'Labor Force Total'])[['Unemployment Rate']].sum()
@@ -303,10 +269,8 @@ def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chos
     fig2 = px.choropleth(dfg_fltrd_surprise, locations="State Code", hover_data=['State', 'Value'],
                         locationmode="USA-states", color="Value", labels={'Value':'Surprise Value'},template='plotly_dark', color_continuous_midpoint=0, color_continuous_scale=px.colors.diverging.balance,
                         scope="usa")
-    fig3 = px.line(df_fltr, x="Year", y="Unemployment Rate", template="plotly_dark", title=month_chosen, color='State Code')
-    fig3.update_traces(mode='markers+lines')
-
     
+    fig3 = px.line(df_fltr, x="Year", y="Unemployment Rate", template="plotly_dark", title=loc+" " +month_chosen)
 
     year_df = dfg[(dfg['Year'] == 2020) & (dfg['State Code'] == loc)]
     covid_df = covid_data[(covid_data['Year'] == 2020) & (covid_data['state'] == loc)]
@@ -345,9 +309,9 @@ def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chos
     font_color=colors['text']
     )
 
-    # year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
-    # # print("df is ", type(df['Year'][0]))
-    # year_df_sm = year_df_sm[year_df_sm["State"].isin(state)]
+    year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
+    # print("df is ", type(df['Year'][0]))
+    year_df_sm = year_df_sm[year_df_sm["State"].isin(state)]
 
     covid_df = covid_data[(covid_data['Year'] == 2020) & (covid_data['Month'] == month_chosen)]
     year_df_sm["Positive total"] = covid_data["positive"]
