@@ -67,7 +67,7 @@ line = slope*X+intercept
 
 
 # fig = go.Figure([
-fig = px.scatter(final_df, x="positive", y="Unemployment Total", trendline="ols")
+fig = px.scatter(final_df, x="positive", y="Unemployment Total", trendline="ols", template="plotly_dark")
 
 fig2 = go.Figure([
     go.Scatter(
@@ -113,10 +113,10 @@ layout = html.Div(children=[
         id='linear-regression-positive-unemployment',
         figure=fig
     ),
-     dcc.Graph(
-        id='linear-regression-positive-unemployment-2',
-        figure=fig2
-    ),
+    #  dcc.Graph(
+    #     id='linear-regression-positive-unemployment-2',
+    #     figure=fig2
+    # ),
 
 ])
 
