@@ -7,6 +7,7 @@ import pandas as pd
 import pathlib
 from app import app
 import plotly.graph_objects as go
+from sklearn.decomposition import PCA
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
@@ -18,6 +19,10 @@ month_selc = df['Month'].unique()
 df['Date'] = pd.to_datetime(df['Date'])
 df_2008 = df[df['Date'].dt.year == 2008]
 df_2020 = df[df['Date'].dt.year == 2020]
+df_pca = df.drop('Date', axis=1)
+df_pca = df_pca.drop('Month', axis=1)
+df_pca = df_pca.drop('Year', axis=1)
+print(df_pca.dtypes)
 
 layout = html.Div([
 
@@ -48,64 +53,48 @@ layout = html.Div([
 
     ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'}),
 
-    dcc.Checklist(
-        id='toggle-rangeslider',
-        options=[{'label': 'Include Rangeslider', 
-                  'value': 'slider'}],
-        value=['slider']
-    ),
-    
+    html.Div([ 
+        dcc.Checklist(
+            id='toggle-rangeslider',
+            options=[{'label': 'Include Rangeslider', 
+                    'value': 'slider'}],
+            value=['slider']
+        )
+    ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'}),
 
-    dcc.Graph(id='djia-graphic'),
-    
+    dcc.Graph(id='djia-graphic'),    
     dcc.Graph(id='djia-graphic-2'),
     dcc.Graph(id="graph1"),
-    dcc.Graph(id="graph2")
+    dcc.Graph(id="graph2"),
 
-   # dcc.Slider(
-        #id='month--slider',
-        #min=1,
-        #max=12,
-        #value=12,
-        #marks={str(month): str(month) for month in df['Month'].unique()},
-        #marks={
-        #1: 'Jan',
-        #2: 'Feb',
-        #3: 'Mar',
-        #4: 'Apr',
-        #5: 'May',
-        #6: 'jun',
-        #7: 'jul',
-        #8: 'Aug',
-        #9: 'Sep',
-        #10: 'Oct',
-        #11: 'Nov',
-        #12: 'Dec'
-
-    #},
-        #step=None,
-    #)
-
-
+    html.Div([
+    dcc.Graph(id="stock_pca"),
+    html.P("Number of components:"),
+    dcc.Slider(
+        id='pca_slider',
+        min=2, max=5, value=3,
+        marks={i: str(i) for i in range(2,6)})
+    ])
 ])
 
 @app.callback(
     [Output(component_id='djia-graphic', component_property='figure'),
     Output(component_id='djia-graphic-2', component_property='figure'),
     Output(component_id='graph1', component_property='figure'),
-    Output(component_id='graph2', component_property='figure')],
+    Output(component_id='graph2', component_property='figure'),
+    Output("stock_pca", "figure")],
     [Input(component_id='yaxis-column', component_property='value'),
     Input(component_id='xaxis-column', component_property='value'),
-    Input(component_id='toggle-rangeslider', component_property='value')])
+    Input(component_id='toggle-rangeslider', component_property='value'),
+    Input("pca_slider", "value")])
     #Input('month--slider', 'value'))
-def update_graph(yaxis_column_name, xaxis_column_name, value):
+def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
     # x column name is month
     # y column name is other
     # df = df[df['Month'] == xaxis_column_name]
     # df =
     # dff = df[df['Month'] == xaxis_column_name]
     # dff_2020 = df['Year'] = 2020
-    print(df[df['Year'] == 2020])
     dff_2020 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2020)]
     dff_2020 = dff_2020[[yaxis_column_name, 'Month', 'Date', 'Year']] 
     dff_2008 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2008)]
@@ -146,4 +135,21 @@ def update_graph(yaxis_column_name, xaxis_column_name, value):
         xaxis_rangeslider_visible='slider' in value
     )
 
-    return [fig, fig2, candle1, candle2]
+    pca = PCA(n_components=n_components)
+    components = pca.fit_transform(df_pca)
+
+    var = pca.explained_variance_ratio_.sum() * 100
+
+    labels = {str(i): f"PC {i+1}" 
+              for i in range(n_components)}
+    labels['color'] = 'Median Price'
+
+    fig_pca_stock = px.scatter_matrix(
+        components,
+        color=df_pca.High,
+        dimensions=range(n_components),
+        labels=labels,
+        title=f'Total Explained Variance: {var:.2f}%')
+    fig_pca_stock.update_traces(diagonal_visible=False)
+
+    return [fig, fig2, candle1, candle2, fig_pca_stock]
