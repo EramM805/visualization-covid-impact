@@ -7,7 +7,9 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock
+from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock, linearregression
+
+# from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, djia_vis, candlestick, linearregression, stock
 styling = {
     'background': '#111111',
     'text': '#7FDBFF',
@@ -36,7 +38,7 @@ unemployment = 'As the COVID-19 pandemic spread rapidly throughout the world, '\
     'As indicated in the visualizations below, unemployment rates peaked in April of 2020 and '\
     'began to decrease steadily over time.'
 
-stock = 'As unemployment rates soared during the COVID-19 pandemic, the U.S. stock market plunged '\
+stock_str = 'As unemployment rates soared during the COVID-19 pandemic, the U.S. stock market plunged '\
     'as investors hastily sold their holdings in anticipation of worker layoffs. '\
     'Unlike the Great Recession of 2008, stocks plunged between March and April of 2020 for the COVID-19 pandemic. '\
     'During the Great Recession, stocks appeared to have slowly declined over successive months.'
@@ -51,6 +53,7 @@ app.layout = html.Div([
         dcc.Link('App1', href='/apps/app1', className='button'),
         dcc.Link('Heatmap', href='/apps/app2', className='button'),
         dcc.Link('Line Chart', href='/apps/linecharts', className='button'),
+        dcc.Link('Linear Regression', href='/apps/linearregression', className='button'),
         dcc.Link('BarChart', href='/apps/barchart', className='button'),
         dcc.Link('ScatterPlot', href='/apps/scatterplotmat2', className='button'),
         dcc.Link('Stock', href='/apps/stock', className='button')
@@ -70,7 +73,7 @@ layout = html.Div([
         html.H3('U.S. Unemployment Analysis'),
         html.P(unemployment, style={'color': '#e2f7ff'}),
         html.H3('U.S. Stock Analysis'),
-        html.P(stock, style={'color': '#e2f7ff'}),
+        html.P(stock_str, style={'color': '#e2f7ff'}),
     ], style={'marginTop':'2%'})
     ], style={'padding': '3%'})
 ])
@@ -91,6 +94,10 @@ def display_page(pathname):
         return linecharts.layout
     if pathname == '/apps/barchart':
         return bar_chart.layout
+    if pathname == '/apps/candlestick':
+        return candlestick.layout
+    if pathname == '/apps/linearregression':
+        return linearregression.layout
     if pathname == '/apps/stock':
         return stock.layout
     if pathname == '/':
