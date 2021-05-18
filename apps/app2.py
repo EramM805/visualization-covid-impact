@@ -227,8 +227,13 @@ layout = html.Div([
     Input(component_id='surprise-map', component_property='clickData'),
     Input("state-check-list-2", "value")]
 )
-def display_value(pymnt_chosen, month_chosen, clickData, clickDataSurprise, state):
-    df_fltr = dfg[(dfg['Month'] == "January")]
+def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chosen, clickData, clickDataSurprise):
+    
+    if month_chosen is not None:
+        df_fltr = dfg[(dfg['Month'] == month_chosen)]
+    else:
+        df_fltr = dfg[(dfg['Month'] == "January")]
+
     df_fltr = df_fltr[df_fltr["State Code"] == "AL"]
     loc = "AL"
 
@@ -252,6 +257,9 @@ def display_value(pymnt_chosen, month_chosen, clickData, clickDataSurprise, stat
         loc = clickDataSurprise['points'][0]['location']
 
 
+
+
+    
     dfg_fltrd = dfg[(dfg['Month'] == month_chosen) &
                     (dfg["Year"] == pymnt_chosen)]
     dfg_fltrd = dfg_fltrd.groupby(["State Code", 'State', 'Labor Force Total'])[['Unemployment Rate']].sum()
