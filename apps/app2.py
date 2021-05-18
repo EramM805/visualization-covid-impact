@@ -232,7 +232,12 @@ layout = html.Div([
     ]
 )
 def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chosen, clickData, clickDataSurprise):
-    df_fltr = dfg[(dfg['Month'] == "January")]
+    
+    if month_chosen is not None:
+        df_fltr = dfg[(dfg['Month'] == month_chosen)]
+    else:
+        df_fltr = dfg[(dfg['Month'] == "January")]
+
     df_fltr = df_fltr[df_fltr["State Code"] == "AL"]
     loc = "AL"
 
@@ -282,6 +287,7 @@ def display_value(pymnt_chosen, statesChosenHeat,statesChosenSuprise, month_chos
         year_df_sm = dfg[(dfg['Year'] == 2020) & (dfg['Month'] == month_chosen)]
         # print("df is ", type(df['Year'][0]))
         year_df_sm = year_df_sm[year_df_sm["State Code"] == loc]
+
 
 
 
