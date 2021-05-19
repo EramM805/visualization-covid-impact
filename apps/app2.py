@@ -88,7 +88,7 @@ layout = html.Div([
                             id='month-dropdown', value='April', clearable=False,
                             persistence=True, persistence_type='local',
                             options=[{'label': x, 'value': x} for x in (dfg["Month"].unique())],
-                            style={'color': '#7FDBFF', 'text': '#7FDBFF', 'background': 'black'}
+                            style={'color': '#7FDBFF', 'text': '#7FDBFF', 'backgroundColor': 'black !important'}
                         ),
                     ], style={'paddingLeft': '5%', 'paddingRight': '5%'}),
 

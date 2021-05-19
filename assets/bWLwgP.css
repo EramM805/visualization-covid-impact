@@ -417,3 +417,18 @@ there.
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
 
+.Select div {
+    background-color: #252e3f !important;
+    color: #7FDBFF !important;
+    cursor: pointer;
+}
+
+.has-value.Select--single>.Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label {
+  color: #7FDBFF !important;
+}
+
+.Select div:hover {
+    background-color: #45536e !important;
+    color: #7FDBFF !important;
+    cursor: pointer;
+}
