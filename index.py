@@ -37,7 +37,7 @@ unemployment = 'As the COVID-19 pandemic spread rapidly throughout the world, '\
     'As indicated in the visualizations below, unemployment rates peaked in April of 2020 and '\
     'began to decrease steadily over time.'
 
-stock = 'As unemployment rates soared during the COVID-19 pandemic, the U.S. stock market plunged '\
+stock_str = 'As unemployment rates soared during the COVID-19 pandemic, the U.S. stock market plunged '\
     'as investors hastily sold their holdings in anticipation of worker layoffs. '\
     'Unlike the Great Recession of 2008, stocks plunged between March and April of 2020 for the COVID-19 pandemic. '\
     'During the Great Recession, stocks appeared to have slowly declined over successive months.'
@@ -70,7 +70,7 @@ layout = html.Div([
         html.H3('U.S. Unemployment Analysis'),
         html.P(unemployment, style={'color': '#e2f7ff'}),
         html.H3('U.S. Stock Analysis'),
-        html.P(stock, style={'color': '#e2f7ff'}),
+        html.P(stock_str, style={'color': '#e2f7ff'}),
     ], style={'marginTop':'2%'})
     ], style={'padding': '3%'})
 ])
