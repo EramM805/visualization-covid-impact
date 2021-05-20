@@ -13,6 +13,8 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
 df = pd.read_csv(DATA_PATH.joinpath("DJIA2.0.csv"))
 
+df2 = pd.read_csv(DATA_PATH.joinpath("DJI.csv"))
+
 # fig = px.line(df, x="Date", y="High")
 month_selc = df['Month'].unique()
 
@@ -44,16 +46,6 @@ layout = html.Div([
     ], style={'width': '48%', 'display': 'inline-block'}),
 
     html.Div([ 
-        
-        dcc.Dropdown(
-            id='xaxis-column',
-            options=[{'label': i, 'value': i} for i in month_selc],
-            value='Jan',
-            )  
-
-    ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'}),
-
-    html.Div([ 
         dcc.Checklist(
             id='toggle-rangeslider',
             options=[{'label': 'Include Rangeslider', 
@@ -64,6 +56,7 @@ layout = html.Div([
 
     dcc.Graph(id='djia-graphic'),    
     dcc.Graph(id='djia-graphic-2'),
+    dcc.Graph(id='djia-graphic-3'),
     dcc.Graph(id="graph1"),
     dcc.Graph(id="graph2"),
 
@@ -80,25 +73,25 @@ layout = html.Div([
 @app.callback(
     [Output(component_id='djia-graphic', component_property='figure'),
     Output(component_id='djia-graphic-2', component_property='figure'),
+    Output(component_id='djia-graphic-3', component_property='figure'),
     Output(component_id='graph1', component_property='figure'),
     Output(component_id='graph2', component_property='figure'),
     Output("stock_pca", "figure")],
     [Input(component_id='yaxis-column', component_property='value'),
-    Input(component_id='xaxis-column', component_property='value'),
     Input(component_id='toggle-rangeslider', component_property='value'),
     Input("pca_slider", "value")])
     #Input('month--slider', 'value'))
-def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
+def update_graph(yaxis_column_name, value, n_components):
     # x column name is month
     # y column name is other
     # df = df[df['Month'] == xaxis_column_name]
     # df =
     # dff = df[df['Month'] == xaxis_column_name]
     # dff_2020 = df['Year'] = 2020
-    dff_2020 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2020)]
-    dff_2020 = dff_2020[[yaxis_column_name, 'Month', 'Date', 'Year']] 
-    dff_2008 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2008)]
-    dff_2008 = dff_2008[[yaxis_column_name, 'Month', 'Date', 'Year']] 
+    #dff_2020 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2020)]
+    #dff_2020 = dff_2020[[yaxis_column_name, 'Month', 'Date', 'Year']] 
+    #dff_2008 = df[(df['Month'] == xaxis_column_name) & (df['Year'] == 2008)]
+    #dff_2008 = dff_2008[[yaxis_column_name, 'Month', 'Date', 'Year']] 
     # dff = df[(df['Month'] == xaxis_column_name) &
     #                 (df[] == yaxis_column_name)]
     
@@ -108,8 +101,12 @@ def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
     # fig = px.line(df,x=df[df['Month'] == xaxis_column_name]['Date'], y=df['High'])
     
     #fig.update_layout()
-    fig = px.line(dff_2020, x="Date", template="plotly_dark", y=yaxis_column_name)
-    fig2 = px.line(dff_2008, x="Date", template="plotly_dark", y=yaxis_column_name)
+    dff_2020 = df2[df2['Date'].str.contains("2020")] 
+    dff_2008 = df2[df2['Date'].str.contains("2009")] 
+
+    fig = px.line(df2, x="Date", template="plotly_dark", y=yaxis_column_name)
+    fig2 = px.line(dff_2020, x="Date", template="plotly_dark", y=yaxis_column_name)
+    fig3 = px.line(dff_2008, x="Date", template="plotly_dark", y=yaxis_column_name)
 
     candle1 = go.Figure(go.Candlestick(
         x=df_2008['Date'],
@@ -155,4 +152,4 @@ def update_graph(yaxis_column_name, xaxis_column_name, value, n_components):
         template="plotly_dark")
     fig_pca_stock.update_traces(diagonal_visible=False)
 
-    return [fig, fig2, candle1, candle2, fig_pca_stock]
+    return [fig, fig2, fig3, candle1, candle2, fig_pca_stock]
