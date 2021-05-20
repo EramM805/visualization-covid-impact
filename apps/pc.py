@@ -7,31 +7,16 @@ import plotly.express as px
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
-dfg = pd.read_csv(DATA_PATH.joinpath("Unemployment-2005-2021(n).csv"))
-covid_data = pd.read_csv(DATA_PATH.joinpath("US_COVID_DATA.csv"))
-
-df_gdp_us = pd.read_csv(DATA_PATH.joinpath("GDP_us.csv"))
-# fig2 = px.line(df_gdp_us, x="DATE", y="GDP",template="plotly_dark")
-
-col_names =  ['Unemployment Total', 'Positive Covid Cases']
-df  = pd.DataFrame(columns = col_names)
-df['Unemployment Total'] = dfg['Unemployment Total']
-df['Positive Covid Cases'] = covid_data['positive']
-df['Employment Total'] = dfg['Employment Total']
-df['Negative Covid Cases'] = covid_data['negative']
-df['GDP'] = df_gdp_us['GDP']
-
-print("df is", df)
-
+df = pd.read_csv(DATA_PATH.joinpath("corr_data.csv"))
+df = df.drop(columns=['Unnamed: 0'])
 corr = df.corr()
 
-# print("corr is \n", corr.values)
-
+print("df is ", df.columns)
 fig = go.Figure([
     go.Heatmap(z=corr.values,
                   x=corr.index.values,
                   y=corr.columns.values,
-                  colorscale=px.colors.sequential.YlOrRd),
+                  colorscale=px.colors.diverging.RdBu),
                   
 ])
 
