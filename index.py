@@ -4,10 +4,11 @@ from dash.dependencies import Input, Output
 
 # Connect to main app.py file
 from app import app
-from app import server
 
 # Connect to your app pages
 from apps import app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock
+
+server = app.server
 
 styling = {
     'background': '#111111',
