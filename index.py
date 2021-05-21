@@ -7,7 +7,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock
+from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock, linearregression, pc
 
 styling = {
     'background': '#111111',
@@ -53,7 +53,8 @@ app.layout = html.Div([
         dcc.Link('Line Chart', href='/apps/linecharts', className='button'),
         dcc.Link('BarChart', href='/apps/barchart', className='button'),
         dcc.Link('ScatterPlot', href='/apps/scatterplotmat2', className='button'),
-        dcc.Link('Stock', href='/apps/stock', className='button')
+        dcc.Link('Stock', href='/apps/stock', className='button'),
+        dcc.Link('pc', href='/apps/pc', className='button')
     ], className="row", style={"background": "black", 'color': '#7FDBFF', "marginBottom": '3rem'}),
     html.Div(id='page-content', children=[],style={"background": "black", 'color': '#7FDBFF'}, className = 'styling')
 ], style={"background": "black", 'color': '#7FDBFF'})
@@ -91,6 +92,8 @@ def display_page(pathname):
         return bar_chart.layout
     if pathname == '/apps/stock':
         return stock.layout
+    if pathname == '/apps/pc':
+        return pc.layout
     if pathname == '/':
         return layout
     else:
