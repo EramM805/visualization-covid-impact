@@ -4,10 +4,11 @@ from dash.dependencies import Input, Output
 
 # Connect to main app.py file
 from app import app
-from app import server
 
 # Connect to your app pages
-from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock, linearregression, pc
+from apps import app1, app2, bar_chart, linecharts, scatterplotmat, scatterplotmat2, stock, pc
+
+server = app.server
 
 styling = {
     'background': '#111111',
@@ -49,12 +50,12 @@ app.layout = html.Div([
         html.Div([
             dcc.Link('    COVID-19 Impact on U.S. Economy', href='/',  style={"marginLeft": "1rem","fontFamily":"Blippo, fantasy", "textDecoration": "none", "fontSize": '3rem', 'color': '#e2f7ff'})
         ]),
-        dcc.Link('Unemployment', href='/apps/unemployment', className='button'),
+        dcc.Link('Unemployment Analysis Dashboard', href='/apps/unemployment', className='button'),
         dcc.Link('Line Chart', href='/apps/linecharts', className='button'),
-        dcc.Link('BarChart', href='/apps/barchart', className='button'),
-        dcc.Link('ScatterPlot', href='/apps/scatterplotmat2', className='button'),
-        dcc.Link('Stock', href='/apps/stock', className='button'),
-        dcc.Link('pc', href='/apps/pc', className='button')
+        dcc.Link('Bar Chart', href='/apps/barchart', className='button'),
+        dcc.Link('Scatter Plot', href='/apps/scatterplotmat2', className='button'),
+        dcc.Link('Stock Analysis Dashboard', href='/apps/stock', className='button'),
+        dcc.Link('Pearson Correlation Matrix', href='/apps/pc', className='button')
     ], className="row", style={"background": "black", 'color': '#7FDBFF', "marginBottom": '3rem'}),
     html.Div(id='page-content', children=[],style={"background": "black", 'color': '#7FDBFF'}, className = 'styling')
 ], style={"background": "black", 'color': '#7FDBFF'})
