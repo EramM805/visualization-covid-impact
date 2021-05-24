@@ -23,7 +23,8 @@ layout = html.Div([
         html.Div([
             html.Pre(children="State"),
             dcc.Checklist(
-                id='state-check-list', value=['Alabama'],
+                id='state-check-list', value=['Alabama', 'Alaska', 'New York', 'California', 'Florida', 'Ohio', 'Oregon',
+                'Texas', 'Utah', 'New Hampshire', 'New Jersey','Washington', 'Georgia', 'Wyoming', 'Arizona'],
                 options = [{'label': i, 'value': i} for i in df['State'].unique()],
                 labelStyle={'display': 'inline'},
             )
@@ -52,15 +53,18 @@ layout = html.Div([
         ], className = 'six columns'),
     ], className = 'row'),
     
-    dcc.Graph(id="scattermat"),
+    dcc.Graph(id="scattermat1"),
+    dcc.Graph(id="scattermat2")
 ])
 
 @app.callback(
-    Output("scattermat", "figure"), 
+    [Output("scattermat1", "figure"),
+    Output("scattermat2", "figure")],
     [Input("dropdown", "value"),
     Input("dropdown-month", "value"),
     Input("state-check-list", "value")]
     )
+
 def update_scattermat(year, month, state):
     year_df = df[(df['Year'] == year) & (df['Month'] == month)]
     year_df = year_df[year_df["State"].isin(state)]
@@ -77,12 +81,30 @@ def update_scattermat(year, month, state):
     color="State",
     #title="Scatterplot Matrix of Unemployment 2007",
     labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
+
+    fig2 = px.scatter_matrix(year_df,
+    dimensions=["Employment Total", "Unemployment Total", "Positive total", "Negative total", "Labor Force Total", "Hospitalized total"],
+    hover_data=["Unemployment Rate", "State", "Year", "Month"],
+    color="Unemployment Rate",
+    #title="Scatterplot Matrix of Unemployment 2007",
+    labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
     
     fig.update_traces(diagonal_visible=False)
     fig.update_traces
     fig.update_layout(
+    template="plotly_dark",
     autosize=False,
-    width = 2000,
+    width = 1400,
     height = 1500,
     )
-    return fig
+
+    fig2.update_traces(diagonal_visible=False)
+    fig2.update_traces
+    fig2.update_layout(
+    template="plotly_dark",
+    autosize=False,
+    width = 1400,
+    height = 1500,
+    )
+
+    return fig, fig2
