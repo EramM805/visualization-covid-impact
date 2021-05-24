@@ -23,8 +23,15 @@ layout = html.Div([
         html.Div([
             html.Pre(children="State"),
             dcc.Checklist(
-                id='state-check-list', value=['Alabama', 'Alaska', 'New York', 'California', 'Florida', 'Ohio', 'Oregon',
-                'Texas', 'Utah', 'New Hampshire', 'New Jersey','Washington', 'Georgia', 'Wyoming', 'Arizona'],
+                id='state-check-list', value=['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
+'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
+'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
+'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
+'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington',
+'West Virginia', 'Wisconsin', 'Wyoming'],
                 options = [{'label': i, 'value': i} for i in df['State'].unique()],
                 labelStyle={'display': 'inline'},
             )
@@ -54,12 +61,13 @@ layout = html.Div([
     ], className = 'row'),
     
     dcc.Graph(id="scattermat1"),
-    dcc.Graph(id="scattermat2")
+    #dcc.Graph(id="scattermat2")
 ])
 
 @app.callback(
     [Output("scattermat1", "figure"),
-    Output("scattermat2", "figure")],
+    #Output("scattermat2", "figure")
+    ],
     [Input("dropdown", "value"),
     Input("dropdown-month", "value"),
     Input("state-check-list", "value")]
@@ -78,16 +86,16 @@ def update_scattermat(year, month, state):
     fig = px.scatter_matrix(year_df,
     dimensions=["Employment Total", "Unemployment Total", "Positive total", "Negative total", "Labor Force Total", "Hospitalized total"],
     hover_data=["Unemployment Rate", "State", "Year", "Month"],
-    color="State",
-    #title="Scatterplot Matrix of Unemployment 2007",
-    labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
-
-    fig2 = px.scatter_matrix(year_df,
-    dimensions=["Employment Total", "Unemployment Total", "Positive total", "Negative total", "Labor Force Total", "Hospitalized total"],
-    hover_data=["Unemployment Rate", "State", "Year", "Month"],
     color="Unemployment Rate",
     #title="Scatterplot Matrix of Unemployment 2007",
     labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
+
+    #fig2 = px.scatter_matrix(year_df,
+    #dimensions=["Employment Total", "Unemployment Total", "Positive total", "Negative total", "Labor Force Total", "Hospitalized total"],
+    #hover_data=["Unemployment Rate", "State", "Year", "Month"],
+    #color="Unemployment Rate",
+    #title="Scatterplot Matrix of Unemployment 2007",
+    #labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
     
     fig.update_traces(diagonal_visible=False)
     fig.update_traces
@@ -98,13 +106,13 @@ def update_scattermat(year, month, state):
     height = 1500,
     )
 
-    fig2.update_traces(diagonal_visible=False)
-    fig2.update_traces
-    fig2.update_layout(
-    template="plotly_dark",
-    autosize=False,
-    width = 1400,
-    height = 1500,
-    )
+    #fig2.update_traces(diagonal_visible=False)
+    #fig2.update_traces
+    #fig2.update_layout(
+    #template="plotly_dark",
+    #autosize=False,
+    #width = 1400,
+    #height = 1500,
+    #)
 
-    return fig, fig2
+    return fig
