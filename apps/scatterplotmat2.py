@@ -20,14 +20,14 @@ layout = html.Div([
     
     html.Div([
         
-        html.Div([
-            html.Pre(children="State"),
-            dcc.Checklist(
-                id='state-check-list', value=['Alabama'],
-                options = [{'label': i, 'value': i} for i in df['State'].unique()],
-                labelStyle={'display': 'inline'},
-            )
-            ]),
+        # html.Div([
+        #     html.Pre(children="State"),
+        #     dcc.Checklist(
+        #         id='state-check-list', value=['Alabama'],
+        #         options = [{'label': i, 'value': i} for i in df['State'].unique()],
+        #         labelStyle={'display': 'inline'},
+        #     )
+        #     ]),
 
         html.Div([
         html.Pre(children="Year", style = {"textAlign": "center", "width": "100px", "fontSize": "150%"}),
@@ -59,11 +59,12 @@ layout = html.Div([
     Output("scattermat", "figure"), 
     [Input("dropdown", "value"),
     Input("dropdown-month", "value"),
-    Input("state-check-list", "value")]
+    # Input("state-check-list", "value")]
+    ]
     )
-def update_scattermat(year, month, state):
+def update_scattermat(year, month):
     year_df = df[(df['Year'] == year) & (df['Month'] == month)]
-    year_df = year_df[year_df["State"].isin(state)]
+    # year_df = year_df[year_df["State"].isin(state)]
     #year_df = year_df.groupby(["Month"])[['Unemployment Total']]
     covid_df = covid_data[(covid_data['Year'] == 2020) & (covid_data['Month'] == month)]
     year_df["Positive total"] = covid_data["positive"]
@@ -74,7 +75,7 @@ def update_scattermat(year, month, state):
     fig = px.scatter_matrix(year_df,
     dimensions=["Employment Total", "Unemployment Total", "Positive total", "Negative total", "Labor Force Total", "Hospitalized total"],
     hover_data=["Unemployment Rate", "State", "Year", "Month"],
-    color="State",
+    color="Unemployment Rate",
     #title="Scatterplot Matrix of Unemployment 2007",
     labels={col:col.replace(',', ' ') for col in df.columns}) # remove underscore
     
@@ -82,7 +83,8 @@ def update_scattermat(year, month, state):
     fig.update_traces
     fig.update_layout(
     autosize=False,
-    width = 2000,
+    width = 1400,
     height = 1500,
+    template='plotly_dark'
     )
     return fig
