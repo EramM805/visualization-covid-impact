@@ -9,5 +9,7 @@ apps/__pycache__/scatterplotmat2.cpython-37.pyc
 *.pyc
 *.pyc
 *.pyc
-*.pyc
-*.pyc
+venv
+.DS_Store
+.env
+
